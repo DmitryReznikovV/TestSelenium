@@ -3,6 +3,7 @@ package pages;
 import Utils.BaseClass;
 import Utils.Functions;
 import Utils.PropertieLoader;
+import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -10,50 +11,46 @@ import org.openqa.selenium.support.PageFactory;
 
 public class HomePage extends BaseClass{
 
-    Functions functions;
-    PropertieLoader prop = new PropertieLoader();
+    @FindBy(xpath = "//a[@id='home-icon']")
+    WebElement homePageLogo;
 
-    @FindBy(xpath = "//button[contains(@class, 'login-button')]")
-    public WebElement loginButton;
+    @FindBy(xpath = "//span[@class='gb_1a gbii']")
+    WebElement accountLink;
 
-    @FindBy(xpath = "//input[@name='login_email']")
-    WebElement userLogin;
+    @FindBy(id = "gb_71")
+    WebElement logoutLink;
 
-    @FindBy(xpath = "//input[@name='login_password']")
-    WebElement UserPassword;
+    @FindBy(id = "signIn")
+    WebElement loginButton;
 
-    @FindBy(id = "sign-in")
-    WebElement signInLink;
-
-    @FindBy(xpath = "//input[@name='remember_me']")
-    WebElement rememberMe;
-
+    //Constructor
     public HomePage(WebDriver driver){
         super(driver);
-
-        driver.get(prop.getProperty("URL"));
 
         //Initialise Elements
         PageFactory.initElements(driver, this);
     }
 
-    public void clickSignInLink(){
-        signInLink.click();
+    public void checkHomePage() {
+        Functions.waitForElementIsVisible(driver, accountLink);
+        Assert.assertTrue(homePageLogo.isDisplayed());
+        Assert.assertEquals("Home - Dropbox", driver.getTitle());
     }
 
-    public void loginToAccount(String login, String password){
-        functions.waitForElementIsVisible(driver, loginButton);
-        if(rememberMe.isSelected()){
-            rememberMe.click();
-        }
-        userLogin.sendKeys(login);
-        UserPassword.sendKeys(password);
-        clickLoginButton();
-
+    public void logout() {
+        clickAccountLink();
+        clickLogoutLink();
     }
 
-    public void clickLoginButton(){
-        functions.waitForElementIsVisible(driver, loginButton);
-        loginButton.click();
+    public void clickAccountLink(){
+        Functions.waitForElementIsVisible(driver, accountLink);
+        accountLink.click();
+    }
+
+    public void clickLogoutLink(){
+        Functions.waitForElementIsVisible(driver, logoutLink);
+        logoutLink.click();
+
+        Functions.waitForElementIsVisible(driver, loginButton);
     }
 }

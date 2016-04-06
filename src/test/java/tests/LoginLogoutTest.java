@@ -2,8 +2,8 @@ package tests;
 
 import Utils.PropertieLoader;
 import org.openqa.selenium.chrome.ChromeDriver;
+import pages.LoginPage;
 import pages.HomePage;
-import pages.MyAccountPage;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -41,19 +41,19 @@ public class LoginLogoutTest {
         System.out.println("Starting test " + new Object(){}.getClass().getEnclosingMethod().getName());
 
         //Create instance of HomePage Class
-        HomePage home = new HomePage(driver);
+        LoginPage home = new LoginPage(driver);
 
         home.clickSignInLink();
         home.loginToAccount(properttieLoader.getProperty("username"), properttieLoader.getProperty("password"));
 
         //Create instance of MyAccountPage
-        MyAccountPage myAccountPage = new MyAccountPage(driver);
+        HomePage homePage = new HomePage(driver);
 
         //Check if page is opened
-        myAccountPage.checkMyAccountPage();
+        homePage.checkHomePage();
 
         //Logout
-        myAccountPage.logout();
+        homePage.logout();
 
         System.out.println("Ending test " + new Object(){}.getClass().getEnclosingMethod().getName());
     }

@@ -40,20 +40,24 @@ public class LoginLogoutTest {
 
         System.out.println("Starting test " + new Object(){}.getClass().getEnclosingMethod().getName());
 
-        //Create instance of HomePage Class
+        //Create instance of LoginPage Class
         LoginPage home = new LoginPage(driver);
 
         home.clickSignInLink();
         home.loginToAccount(properttieLoader.getProperty("username"), properttieLoader.getProperty("password"));
 
-        //Create instance of MyAccountPage
+        //Create instance of HomePage Class
         HomePage homePage = new HomePage(driver);
 
         //Check if page is opened
         homePage.checkHomePage();
 
+        //Upload File
+        homePage.clickUploadLink();
+        homePage.clickChooseFilesButton();
+
         //Logout
-        homePage.logout();
+        //homePage.logout();
 
         System.out.println("Ending test " + new Object(){}.getClass().getEnclosingMethod().getName());
     }

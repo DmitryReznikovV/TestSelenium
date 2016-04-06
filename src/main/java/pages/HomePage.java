@@ -11,10 +11,12 @@ import org.openqa.selenium.support.PageFactory;
 
 public class HomePage extends BaseClass{
 
+    PropertieLoader prop = new PropertieLoader();
+
     @FindBy(xpath = "//a[@id='home-icon']")
     WebElement homePageLogo;
 
-    @FindBy(xpath = "//span[@class='gb_1a gbii']")
+    @FindBy(xpath = "//li[@id='header-account-menu']//button")
     WebElement accountLink;
 
     @FindBy(id = "gb_71")
@@ -22,6 +24,12 @@ public class HomePage extends BaseClass{
 
     @FindBy(id = "signIn")
     WebElement loginButton;
+
+    @FindBy(id = "upload_button")
+    WebElement uploadLink;
+
+    @FindBy(id = "choose-button")
+    WebElement chooseFileButton;
 
     //Constructor
     public HomePage(WebDriver driver){
@@ -33,24 +41,20 @@ public class HomePage extends BaseClass{
 
     public void checkHomePage() {
         Functions.waitForElementIsVisible(driver, accountLink);
+
+        Assert.assertEquals(accountLink.getText(), prop.getProperty("accountname"));
         Assert.assertTrue(homePageLogo.isDisplayed());
         Assert.assertEquals("Home - Dropbox", driver.getTitle());
     }
 
-    public void logout() {
-        clickAccountLink();
-        clickLogoutLink();
+    public void clickUploadLink(){
+        if(uploadLink.isDisplayed()){
+            uploadLink.click();
+            Functions.waitForElementIsVisible(driver, chooseFileButton);
+        }
     }
 
-    public void clickAccountLink(){
-        Functions.waitForElementIsVisible(driver, accountLink);
-        accountLink.click();
-    }
-
-    public void clickLogoutLink(){
-        Functions.waitForElementIsVisible(driver, logoutLink);
-        logoutLink.click();
-
-        Functions.waitForElementIsVisible(driver, loginButton);
+    public void clickChooseFilesButton(){
+        chooseFileButton.click();
     }
 }

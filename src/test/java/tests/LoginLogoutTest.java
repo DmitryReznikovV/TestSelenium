@@ -1,50 +1,30 @@
 package tests;
 
+import Utils.Hooks;
 import Utils.PropertieLoader;
-import org.openqa.selenium.chrome.ChromeDriver;
 import pages.LoginPage;
 import pages.HomePage;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
 
-import java.util.concurrent.TimeUnit;
+import java.awt.*;
+import java.awt.datatransfer.StringSelection;
+import java.awt.event.KeyEvent;
 
-public class LoginLogoutTest {
+public class LoginLogoutTest extends Hooks{
 
-    public WebDriver driver;
     PropertieLoader properttieLoader = new PropertieLoader();
-
-    @Before
-    public void setup(){
-        String browser = properttieLoader.getProperty("browser");
-        String path = System.getProperty("user.dir");
-        System.setProperty("webdriver.chrome.driver", path + properttieLoader.getProperty("driverpath"));
-
-        if(browser.equals("Firefox")) {
-            driver = new FirefoxDriver();
-        }
-        else {
-            if(browser.equals("Chrome")){
-                driver = new ChromeDriver();
-                driver.manage().window().maximize();
-            }
-        }
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-    }
+    String path = System.getProperty("user.dir");
 
     @Test
-    public void applyAsDeveloper(){
+    public void applyAsDeveloper() throws InterruptedException, AWTException {
 
         System.out.println("Starting test " + new Object(){}.getClass().getEnclosingMethod().getName());
 
         //Create instance of LoginPage Class
-        LoginPage home = new LoginPage(driver);
+        LoginPage loginPage = new LoginPage(driver);
 
-        home.clickSignInLink();
-        home.loginToAccount(properttieLoader.getProperty("username"), properttieLoader.getProperty("password"));
+        loginPage.clickSignInLink();
+        loginPage.loginToAccount(properttieLoader.getProperty("username"), properttieLoader.getProperty("password"));
 
         //Create instance of HomePage Class
         HomePage homePage = new HomePage(driver);
@@ -56,16 +36,29 @@ public class LoginLogoutTest {
         homePage.clickUploadLink();
         homePage.clickChooseFilesButton();
 
+        Thread.sleep(4000);
+
+        //Set the filename for upload in clipboard
+        StringSelection stringSelection = new StringSelection(path + "\\" + "Brainloop_Reznikau.txt");
+        Toolkit.getDefaultToolkit().getSystemClipboard().setContents(stringSelection, null);
+
+        //Performs native keystrokes for CTRL+V and ENTER keys
+        Robot robot = new Robot();
+        robot.keyPress(KeyEvent.VK_ENTER);
+        robot.keyRelease(KeyEvent.VK_ENTER);
+        robot.keyPress(KeyEvent.VK_CONTROL);
+        robot.keyPress(KeyEvent.VK_V);
+        robot.keyRelease(KeyEvent.VK_CONTROL);
+        Thread.sleep(1000);
+        robot.keyPress(KeyEvent.VK_ENTER);
+
+        homePage.clickDoneButton();
+
         //Logout
-        //homePage.logout();
+        homePage.logout();
+
+        loginPage.checkLoginPage();
 
         System.out.println("Ending test " + new Object(){}.getClass().getEnclosingMethod().getName());
-    }
-
-    @After
-    public void close(){
-        if(driver!=null){
-            driver.close();
-        }
     }
 }

@@ -3,6 +3,7 @@ package pages;
 import Utils.BaseClass;
 import Utils.Functions;
 import Utils.PropertieLoader;
+import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -37,6 +38,11 @@ public class LoginPage extends BaseClass{
         PageFactory.initElements(driver, this);
     }
 
+    public void checkLoginPage(){
+        Functions.waitForElementIsVisible(driver, loginButton);
+        Assert.assertEquals("Dropbox - Sign in", driver.getTitle());
+    }
+
     public void clickSignInLink(){
         signInLink.click();
     }
@@ -49,7 +55,6 @@ public class LoginPage extends BaseClass{
         userLogin.sendKeys(login);
         UserPassword.sendKeys(password);
         clickLoginButton();
-
     }
 
     public void clickLoginButton(){

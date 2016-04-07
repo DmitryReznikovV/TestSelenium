@@ -31,6 +31,12 @@ public class HomePage extends BaseClass{
     @FindBy(id = "choose-button")
     WebElement chooseFileButton;
 
+    @FindBy(id = "done-button")
+    WebElement doneButton;
+
+    @FindBy(xpath = "//a[text()='Sign out']")
+    WebElement signOutLink;
+
     //Constructor
     public HomePage(WebDriver driver){
         super(driver);
@@ -54,7 +60,20 @@ public class HomePage extends BaseClass{
         }
     }
 
+    public void clickDoneButton() {
+        Functions.waitForElementIsVisible(driver, doneButton);
+        if (doneButton.isDisplayed()) {
+            doneButton.click();
+        }
+    }
+
     public void clickChooseFilesButton(){
         chooseFileButton.click();
+    }
+
+    public void logout(){
+        accountLink.click();
+        Functions.waitForElementIsVisible(driver, signOutLink);
+        signOutLink.click();
     }
 }

@@ -5,6 +5,8 @@ import org.junit.Before;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxProfile;
+
 import java.net.MalformedURLException;
 import java.util.concurrent.TimeUnit;
 
@@ -14,17 +16,18 @@ public class Hooks {
     PropertieLoader properttieLoader = new PropertieLoader();
 
     @Before
-    /**
-     * Delete all cookies at the start of each scenario to avoid
-     * shared state between tests
-     */
     public void openBrowser() throws MalformedURLException {
         String browser = properttieLoader.getProperty("browser");
         String path = System.getProperty("user.dir");
         System.setProperty("webdriver.chrome.driver", path + properttieLoader.getProperty("driverpath"));
 
         if(browser.equals("Firefox")) {
-            driver = new FirefoxDriver();
+            FirefoxProfile fxProfile = new FirefoxProfile();
+            fxProfile.setPreference("browser.download.folderList", 2);
+            fxProfile.setPreference("browser.download.manager.showWhenStarting", false);
+            fxProfile.setPreference("browser.download.dir", path);
+            fxProfile.setPreference("browser.helperApps.neverAsk.saveToDisk", "text/plain");
+            driver = new FirefoxDriver(fxProfile);
         }
         else {
             if(browser.equals("Chrome")){

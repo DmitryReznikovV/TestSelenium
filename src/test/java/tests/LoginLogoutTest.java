@@ -1,5 +1,6 @@
 package tests;
 
+import Utils.Functions;
 import Utils.Hooks;
 import Utils.PropertieLoader;
 import pages.LoginPage;
@@ -8,10 +9,10 @@ import org.junit.Test;
 
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
-import java.awt.event.KeyEvent;
 
 public class LoginLogoutTest extends Hooks{
 
+    Functions functions;
     PropertieLoader properttieLoader = new PropertieLoader();
     String path = System.getProperty("user.dir");
 
@@ -42,23 +43,32 @@ public class LoginLogoutTest extends Hooks{
         StringSelection stringSelection = new StringSelection(path + "\\" + "Brainloop_Reznikau.txt");
         Toolkit.getDefaultToolkit().getSystemClipboard().setContents(stringSelection, null);
 
-        //Performs native keystrokes for CTRL+V and ENTER keys
-        Robot robot = new Robot();
-        robot.keyPress(KeyEvent.VK_ENTER);
-        robot.keyRelease(KeyEvent.VK_ENTER);
-        robot.keyPress(KeyEvent.VK_CONTROL);
-        robot.keyPress(KeyEvent.VK_V);
-        robot.keyRelease(KeyEvent.VK_CONTROL);
-        Thread.sleep(1000);
-        robot.keyPress(KeyEvent.VK_ENTER);
-
+        //Performs native keystrokes for CTRL+V and ENTER keys and upload the file
+        functions.uploadFile();
         homePage.clickDoneButton();
+
+        //Rename uploaded file
+        homePage.renameTestFile();
+
+        //Create new folder
+        homePage.createNewFolder();
+
+        //Move uploaded file to created folder and navigate to this folder
+        homePage.moveFileToFolder();
+        homePage.navigateToFolder();
+
+        //Download the file by using Firefox profile
+        homePage.downloadNewDile();
+
+        //Delete file from the current directory
+        functions.deleteFile(path, "Brainloop_Reznikau_Temp.txt");
+
+        //Share file
+        homePage.shareFile();
 
         //Logout
         homePage.logout();
-
         loginPage.checkLoginPage();
-
         System.out.println("Ending test " + new Object(){}.getClass().getEnclosingMethod().getName());
     }
 }

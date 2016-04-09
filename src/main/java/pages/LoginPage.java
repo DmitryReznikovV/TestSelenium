@@ -39,7 +39,7 @@ public class LoginPage extends BaseClass{
     }
 
     public void checkLoginPage(){
-        Functions.waitForElementIsVisible(driver, loginButton);
+        functions.waitForElementIsVisible(driver, loginButton);
         Assert.assertEquals("Dropbox - Sign in", driver.getTitle());
     }
 

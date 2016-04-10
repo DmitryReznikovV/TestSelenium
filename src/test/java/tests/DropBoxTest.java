@@ -8,17 +8,12 @@ import org.junit.Test;
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
 
-public class LoginLogoutTest extends Hooks{
+public class DropBoxTest extends Hooks{
 
     Functions functions;
     CheckingMails checkInbox;
     PropertieLoader properttieLoader = new PropertieLoader();
     String path = System.getProperty("user.dir");
-
-    String host = "pop.gmail.com";// change accordingly
-    String mailStoreType = "pop3";
-    String username = "r.dmitry.mail@gmail.com";// change accordingly
-    String password = "dima1983";// change accordingly
 
     @Test
     public void applyAsDeveloper() throws InterruptedException, AWTException {

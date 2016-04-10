@@ -46,6 +46,8 @@ public class HomePage extends BaseClass{
     @FindBy(xpath = "//a[contains(text(), 'Brainloop_Reznikau')]")
     WebElement fileName;
 
+    By testFileName = By.xpath("//a[contains(text(), 'Brainloop_Reznikau')]");
+
     @FindBy(xpath = "//a[contains(text(), 'Brainloop_Reznikau')]/../..")
     WebElement tableCell;
 
@@ -54,6 +56,8 @@ public class HomePage extends BaseClass{
 
     @FindBy(xpath = "//a[contains(text(), 'Brainloop_Reznikau_Temp')]/../..")
     WebElement newTableCell;
+
+    By tableCellWithNewFile = By.xpath("//a[contains(text(), 'Brainloop_Reznikau_Temp')]/../..");
 
     @FindBy(id = "rename_action_button")
     WebElement renameButton;
@@ -113,11 +117,11 @@ public class HomePage extends BaseClass{
         functions.waitForElementIsVisible(driver, doneButton);
         if (doneButton.isDisplayed()) {
             doneButton.click();
-            functions.waitForElementIsVisible(driver, fileName);
+            functions.fluenWait(driver, testFileName);
 
             // Verify file is uploaded and presents in the table
             Assert.assertTrue(fileName.isDisplayed());
-            Assert.assertEquals("Brainloop_Reznikau.txt", fileName.getText());
+            Assert.assertEquals(prop.getProperty("filename"), fileName.getText());
         }
     }
 
@@ -128,10 +132,13 @@ public class HomePage extends BaseClass{
         functions.waitForElementIsVisible(driver, tableInputField);
 
         tableInputField.clear();
-        tableInputField.sendKeys("Brainloop_Reznikau_Temp.txt");
+        tableInputField.sendKeys(prop.getProperty("newfilename"));
         try {
             functions.performEnter();
             functions.waitForElementIsVisible(driver, newFileName);
+
+            // Verify name of the new file
+            Assert.assertEquals(prop.getProperty("newfilename") ,newFileName.getText());
         } catch (AWTException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -146,12 +153,10 @@ public class HomePage extends BaseClass{
         functions.waitForElementIsVisible(driver, tableInputField);
 
         tableInputField.clear();
-        tableInputField.sendKeys("BrainloopTestFolder_Reznikau");
+        tableInputField.sendKeys(prop.getProperty("foldername"));
         try {
             functions.performEnter();
-            functions.waitForElementIsVisible(driver, folderName);
-            driver.navigate().refresh();
-            functions.waitForElementIsVisible(driver, newTableCell);
+            functions.fluenWait(driver, tableCellWithNewFile);
         } catch (AWTException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -195,7 +200,7 @@ public class HomePage extends BaseClass{
             e.printStackTrace();
         }
         // Verify that downloaded file exists in the current directory
-        File varTmpDir = new File(path + "\\" + "Brainloop_Reznikau_Temp.txt");
+        File varTmpDir = new File(path + "\\" + prop.getProperty("newfilename"));
         Assert.assertTrue(varTmpDir.exists());
     }
 
@@ -206,9 +211,10 @@ public class HomePage extends BaseClass{
         Assert.assertTrue(emailForSharring.isDisplayed());
         Assert.assertTrue(sendButton.isDisplayed());
 
-        emailForSharring.sendKeys("inviens@gmail.com");
+        emailForSharring.sendKeys(prop.getProperty("mailusername"));
         sendButton.click();
 
+        functions.waitForElementIsNotVisible(driver, By.xpath("//button[text() = 'Send']"));
         Assert.assertEquals(0, driver.findElements(By.xpath("//button[text() = 'Send']")).size());
     }
 

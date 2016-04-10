@@ -1,16 +1,17 @@
 package Utils;
 
-import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import com.google.common.base.Function;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Action;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.io.File;
+import java.util.concurrent.TimeUnit;
 
 public class Functions {
 
@@ -65,5 +66,22 @@ public class Functions {
         }catch(Exception e){
             e.printStackTrace();
         }
+    }
+
+    public static void waitForElementIsNotVisible(WebDriver driver, By locator) {
+        new WebDriverWait(driver, 10).until(ExpectedConditions.invisibilityOfElementLocated(locator));
+    }
+
+    public static WebElement fluenWait(final WebDriver driver, final By locator) {
+        FluentWait<WebDriver> wait = new FluentWait<WebDriver>(driver)
+                .withTimeout(30, TimeUnit.SECONDS)
+                .pollingEvery(500, TimeUnit.MILLISECONDS)
+                .ignoring(NoSuchElementException.class);
+
+        return wait.until(new Function<WebDriver, WebElement>() {
+            public WebElement apply(WebDriver webDriver) {
+                return driver.findElement(locator);
+            }
+        });
     }
 }

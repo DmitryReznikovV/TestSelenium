@@ -197,10 +197,6 @@ public class HomePage extends BaseClass{
         // Verify that downloaded file exists in the current directory
         File varTmpDir = new File(path + "\\" + "Brainloop_Reznikau_Temp.txt");
         Assert.assertTrue(varTmpDir.exists());
-        /*if(varTmpDir.exists()){
-            System.out.println("File exists in current directory");
-        }
-        System.err.println("Error - no files found!");*/
     }
 
     public void shareFile(){
@@ -212,6 +208,8 @@ public class HomePage extends BaseClass{
 
         emailForSharring.sendKeys("inviens@gmail.com");
         sendButton.click();
+
+        Assert.assertEquals(0, driver.findElements(By.xpath("//button[text() = 'Send']")).size());
     }
 
     public void logout(){

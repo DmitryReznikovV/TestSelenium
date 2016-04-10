@@ -1,8 +1,6 @@
 package tests;
 
-import Utils.Functions;
-import Utils.Hooks;
-import Utils.PropertieLoader;
+import Utils.*;
 import pages.LoginPage;
 import pages.HomePage;
 import org.junit.Test;
@@ -13,8 +11,14 @@ import java.awt.datatransfer.StringSelection;
 public class LoginLogoutTest extends Hooks{
 
     Functions functions;
+    CheckingMails checkInbox;
     PropertieLoader properttieLoader = new PropertieLoader();
     String path = System.getProperty("user.dir");
+
+    String host = "pop.gmail.com";// change accordingly
+    String mailStoreType = "pop3";
+    String username = "r.dmitry.mail@gmail.com";// change accordingly
+    String password = "dima1983";// change accordingly
 
     @Test
     public void applyAsDeveloper() throws InterruptedException, AWTException {
@@ -65,6 +69,10 @@ public class LoginLogoutTest extends Hooks{
 
         //Share file
         homePage.shareFile();
+
+        //Check Inbox after sharing file
+        checkInbox.check(properttieLoader.getProperty("mailhost"), properttieLoader.getProperty("mailStoreType"),
+                properttieLoader.getProperty("mailusername"), properttieLoader.getProperty("mailpassword"));
 
         //Logout
         homePage.logout();

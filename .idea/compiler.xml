@@ -22,10 +22,14 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
+        <module name="BrainloopTestTask" />
+        <module name="BrainloopTestTask_from_Reznikau" />
         <module name="TestSelenium" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="BrainloopTestTask" target="1.5" />
+      <module name="BrainloopTestTask_from_Reznikau" target="1.5" />
       <module name="TestSelenium" target="1.5" />
     </bytecodeTargetLevel>
   </component>

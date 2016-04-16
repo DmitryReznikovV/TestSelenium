@@ -2,8 +2,6 @@ package Utils;
 
 import com.google.common.base.Function;
 import org.openqa.selenium.*;
-import org.openqa.selenium.interactions.Action;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -43,17 +41,6 @@ public class Functions {
         robot.keyPress(KeyEvent.VK_ENTER);
     }
 
-    public static void dragAndDrop(WebDriver driver, WebElement source, WebElement target){
-        Actions builder = new Actions(driver);
-
-        Action dragAndDrop = builder.clickAndHold(source)
-                .moveToElement(target)
-                .release(target)
-                .build();
-
-        dragAndDrop.perform();
-    }
-
     public static void deleteFile(String path, String fileName){
         try{
             File file = new File(path + "\\" + fileName);
@@ -83,5 +70,15 @@ public class Functions {
                 return driver.findElement(locator);
             }
         });
+    }
+
+    public boolean isElementPresent(WebElement element){
+        try{
+            element.isDisplayed();
+            return true;
+        }
+        catch(NoSuchElementException e){
+            return false;
+        }
     }
 }

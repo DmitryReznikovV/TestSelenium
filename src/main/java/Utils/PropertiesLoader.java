@@ -4,10 +4,10 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
-public class PropertieLoader {
+public class PropertiesLoader {
     private Properties properties = new Properties();
 
-    public PropertieLoader() {
+    public PropertiesLoader() {
         try {
             this.properties.load(new FileInputStream("testrun.properties"));
         } catch (IOException var2) {

@@ -2,17 +2,17 @@ package pages;
 
 import Utils.BaseClass;
 import Utils.Functions;
-import Utils.PropertieLoader;
+import Utils.PropertiesLoader;
 import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-public class LoginPage extends BaseClass{
+public class LoginPage extends BaseClass {
 
     Functions functions;
-    PropertieLoader prop = new PropertieLoader();
+    PropertiesLoader prop = new PropertiesLoader();
 
     @FindBy(xpath = "//button[contains(@class, 'login-button')]")
     public WebElement loginButton;
@@ -39,16 +39,16 @@ public class LoginPage extends BaseClass{
     }
 
     public void checkLoginPage(){
-        functions.waitForElementIsVisible(driver, loginButton);
+        Functions.waitForElementIsVisible(driver, signInLink);
         Assert.assertEquals("Dropbox - Sign in", driver.getTitle());
     }
 
     public void clickSignInLink(){
         signInLink.click();
+        Functions.waitForElementIsVisible(driver, loginButton);
     }
 
     public void loginToAccount(String login, String password){
-        functions.waitForElementIsVisible(driver, loginButton);
         if(rememberMe.isSelected()){
             rememberMe.click();
         }
@@ -58,7 +58,6 @@ public class LoginPage extends BaseClass{
     }
 
     public void clickLoginButton(){
-        functions.waitForElementIsVisible(driver, loginButton);
         loginButton.click();
     }
 }

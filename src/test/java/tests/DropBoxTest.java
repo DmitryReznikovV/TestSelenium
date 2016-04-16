@@ -8,15 +8,15 @@ import org.junit.Test;
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
 
-public class DropBoxTest extends Hooks{
+public class DropBoxTest extends Hooks {
 
     Functions functions;
     CheckingMails checkInbox;
-    PropertieLoader properttieLoader = new PropertieLoader();
+    PropertiesLoader properttieLoader = new PropertiesLoader();
     String path = System.getProperty("user.dir");
 
     @Test
-    public void applyAsDeveloper() throws InterruptedException, AWTException {
+    public void dropboxFileUpload() throws InterruptedException, AWTException {
 
         System.out.println("Starting test " + new Object(){}.getClass().getEnclosingMethod().getName());
 
@@ -43,7 +43,7 @@ public class DropBoxTest extends Hooks{
         Toolkit.getDefaultToolkit().getSystemClipboard().setContents(stringSelection, null);
 
         //Performs native keystrokes for CTRL+V and ENTER keys and upload the file
-        functions.uploadFile();
+        Functions.uploadFile();
         homePage.clickDoneButton();
 
         //Rename uploaded file
@@ -57,16 +57,16 @@ public class DropBoxTest extends Hooks{
         homePage.navigateToFolder();
 
         //Download the file by using Firefox profile
-        homePage.downloadNewDile();
+        homePage.downloadNewFile();
 
         //Delete file from the current directory
-        functions.deleteFile(path, "Brainloop_Reznikau_Temp.txt");
+        Functions.deleteFile(path, "Brainloop_Reznikau_Temp.txt");
 
         //Share file
         homePage.shareFile();
 
         //Check Inbox after sharing file
-        checkInbox.check(properttieLoader.getProperty("mailhost"), properttieLoader.getProperty("mailStoreType"),
+        CheckingMails.check(properttieLoader.getProperty("mailhost"), properttieLoader.getProperty("mailStoreType"),
                 properttieLoader.getProperty("mailusername"), properttieLoader.getProperty("mailpassword"));
 
         //Logout

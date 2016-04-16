@@ -2,7 +2,7 @@ package pages;
 
 import Utils.BaseClass;
 import Utils.Functions;
-import Utils.PropertieLoader;
+import Utils.PropertiesLoader;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -13,9 +13,9 @@ import org.openqa.selenium.support.PageFactory;
 import java.awt.*;
 import java.io.File;
 
-public class HomePage extends BaseClass{
+public class HomePage extends BaseClass {
 
-    PropertieLoader prop = new PropertieLoader();
+    PropertiesLoader prop = new PropertiesLoader();
     String path = System.getProperty("user.dir");
     Functions functions;
 
@@ -98,7 +98,7 @@ public class HomePage extends BaseClass{
     }
 
     public void checkHomePage() {
-        functions.waitForElementIsVisible(driver, accountLink);
+        Functions.waitForElementIsVisible(driver, accountLink);
 
         // Verify Home page
         Assert.assertEquals(accountLink.getText(), prop.getProperty("accountname"));
@@ -109,33 +109,35 @@ public class HomePage extends BaseClass{
     public void clickUploadLink() {
         if(uploadLink.isDisplayed()){
             uploadLink.click();
-            functions.waitForElementIsVisible(driver, chooseFileButton);
+            Functions.waitForElementIsVisible(driver, chooseFileButton);
         }
+        System.out.println("Upload link absent");
     }
 
     public void clickDoneButton() {
-        functions.waitForElementIsVisible(driver, doneButton);
+        Functions.waitForElementIsVisible(driver, doneButton);
         if (doneButton.isDisplayed()) {
             doneButton.click();
-            functions.fluenWait(driver, testFileName);
+            Functions.fluenWait(driver, testFileName);
 
-            // Verify file is uploaded and presents in the table
+            // Verify file is uploaded and presents on the page
             Assert.assertTrue(fileName.isDisplayed());
             Assert.assertEquals(prop.getProperty("filename"), fileName.getText());
         }
+        System.out.println("Done button absent");
     }
 
     public void renameTestFile() {
         tableCell.click();
-        functions.waitForElementIsVisible(driver, renameButton);
+        Functions.waitForElementIsVisible(driver, renameButton);
         renameButton.click();
-        functions.waitForElementIsVisible(driver, tableInputField);
+        Functions.waitForElementIsVisible(driver, tableInputField);
 
         tableInputField.clear();
         tableInputField.sendKeys(prop.getProperty("newfilename"));
         try {
-            functions.performEnter();
-            functions.waitForElementIsVisible(driver, newFileName);
+            Functions.performEnter();
+            Functions.waitForElementIsVisible(driver, newFileName);
 
             // Verify name of the new file
             Assert.assertEquals(prop.getProperty("newfilename") ,newFileName.getText());
@@ -150,13 +152,13 @@ public class HomePage extends BaseClass{
         Assert.assertTrue(newFolderButton.isDisplayed());
 
         newFolderButton.click();
-        functions.waitForElementIsVisible(driver, tableInputField);
+        Functions.waitForElementIsVisible(driver, tableInputField);
 
         tableInputField.clear();
         tableInputField.sendKeys(prop.getProperty("foldername"));
         try {
-            functions.performEnter();
-            functions.fluenWait(driver, tableCellWithNewFile);
+            Functions.performEnter();
+            Functions.fluenWait(driver, tableCellWithNewFile);
         } catch (AWTException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -166,13 +168,12 @@ public class HomePage extends BaseClass{
 
     public void moveFileToFolder() {
         newTableCell.click();
-        functions.waitForElementIsVisible(driver, moveLink);
+        Functions.waitForElementIsVisible(driver, moveLink);
         moveLink.click();
-        functions.waitForElementIsVisible(driver, folderLink);
+        Functions.waitForElementIsVisible(driver, folderLink);
         folderLink.click();
         moveButton.click();
-        driver.navigate().refresh();
-        functions.waitForElementIsVisible(driver, uploadLink);
+        Functions.waitForElementIsVisible(driver, uploadLink);
 
         // Verify that after moving file to the particular folder we don't see this file in the table anymore
         Assert.assertEquals(0, driver.findElements(By.xpath("//a[contains(text(), 'Brainloop_Reznikau_Temp')]")).size());
@@ -189,9 +190,9 @@ public class HomePage extends BaseClass{
         Assert.assertTrue(newFileName.isDisplayed());
     }
 
-    public void downloadNewDile(){
+    public void downloadNewFile(){
         newTableCell.click();
-        functions.waitForElementIsVisible(driver, downloadButton);
+        Functions.waitForElementIsVisible(driver, downloadButton);
         downloadButton.click();
 
         try {
@@ -214,13 +215,13 @@ public class HomePage extends BaseClass{
         emailForSharring.sendKeys(prop.getProperty("mailusername"));
         sendButton.click();
 
-        functions.waitForElementIsNotVisible(driver, By.xpath("//button[text() = 'Send']"));
+        Functions.waitForElementIsNotVisible(driver, By.xpath("//button[text() = 'Send']"));
         Assert.assertEquals(0, driver.findElements(By.xpath("//button[text() = 'Send']")).size());
     }
 
     public void logout(){
         accountLink.click();
-        functions.waitForElementIsVisible(driver, signOutLink);
+        Functions.waitForElementIsVisible(driver, signOutLink);
         signOutLink.click();
     }
 }

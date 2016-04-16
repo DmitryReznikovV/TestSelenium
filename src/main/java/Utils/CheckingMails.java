@@ -8,6 +8,7 @@ public class CheckingMails {
     public static void check(String host, String storeType, String user, String password)
     {
         try {
+            final PropertiesLoader propertiesLoader = new PropertiesLoader();
             // create properties field
             Properties properties = new Properties();
 
@@ -19,7 +20,7 @@ public class CheckingMails {
             Session emailSession = Session.getInstance(properties,
                     new javax.mail.Authenticator() {
                         protected PasswordAuthentication getPasswordAuthentication() {
-                            return new PasswordAuthentication("reznikau.test2.mail@gmail.com", "test1234test");
+                            return new PasswordAuthentication(propertiesLoader.getProperty("mailusername"), propertiesLoader.getProperty("mailpassword"));
                         }
                     });
             // emailSession.setDebug(true);
@@ -57,14 +58,4 @@ public class CheckingMails {
             e.printStackTrace();
         }
     }
-
-    /*public static void main(String[] args) {
-
-        String host = "pop.gmail.com";// change accordingly
-        String mailStoreType = "pop3";
-        String username = "reznikau.test2.mail@gmail.com";// change accordingly
-        String password = "test1234test";// change accordingly
-
-        check(host, mailStoreType, username, password);
-    }*/
 }

@@ -13,13 +13,13 @@ import java.util.concurrent.TimeUnit;
 public class Hooks {
 
     public static WebDriver driver;
-    PropertieLoader properttieLoader = new PropertieLoader();
+    PropertiesLoader propertiesLoader = new PropertiesLoader();
 
     @Before
     public void openBrowser() throws MalformedURLException {
-        String browser = properttieLoader.getProperty("browser");
+        String browser = propertiesLoader.getProperty("browser");
         String path = System.getProperty("user.dir");
-        System.setProperty("webdriver.chrome.driver", path + properttieLoader.getProperty("driverpath"));
+        System.setProperty("webdriver.chrome.driver", path + propertiesLoader.getProperty("driverpath"));
 
         if(browser.equals("Firefox")) {
             FirefoxProfile fxProfile = new FirefoxProfile();
@@ -32,7 +32,6 @@ public class Hooks {
         else {
             if(browser.equals("Chrome")){
                 driver = new ChromeDriver();
-                driver.manage().window().maximize();
             }
         }
         driver.manage().window().maximize();
@@ -41,7 +40,7 @@ public class Hooks {
 
     @After
     public void close(){
-        if(driver!=null){
+        if(driver != null){
             driver.close();
         }
     }

@@ -1,6 +1,7 @@
 package Utils;
 
 import com.google.common.base.Function;
+import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
@@ -9,6 +10,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
 
 public class Functions {
@@ -79,6 +82,21 @@ public class Functions {
         }
         catch(NoSuchElementException e){
             return false;
+        }
+    }
+
+    public static void takeScreenshot(WebDriver driver) throws Exception{
+
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat formater = new SimpleDateFormat("dd_MM_yyyy_hh_mm_ss");
+        String path = System.getProperty("user.dir");
+
+        try{
+            File scrFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
+            FileUtils.copyFile(scrFile, new File(path + "\\screenshots\\" + "failure_screenshot_" + formater.format(calendar.getTime())+".png"));
+        } catch (Exception e){
+            //Log.error("Class Utils | Method takeScreenshot | Exception occured while capturing ScreenShot : "+e.getMessage());
+            throw new Exception();
         }
     }
 }

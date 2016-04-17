@@ -11,7 +11,6 @@ import org.openqa.selenium.support.PageFactory;
 
 public class LoginPage extends BaseClass {
 
-    Functions functions;
     PropertiesLoader prop = new PropertiesLoader();
 
     @FindBy(xpath = "//button[contains(@class, 'login-button')]")

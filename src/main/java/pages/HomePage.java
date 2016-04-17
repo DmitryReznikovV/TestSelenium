@@ -17,7 +17,6 @@ public class HomePage extends BaseClass {
 
     PropertiesLoader prop = new PropertiesLoader();
     String path = System.getProperty("user.dir");
-    Functions functions;
 
     @FindBy(xpath = "//a[@id='home-icon']")
     WebElement homePageLogo;

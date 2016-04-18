@@ -12,6 +12,7 @@ import org.openqa.selenium.support.PageFactory;
 public class LoginPage extends BaseClass {
 
     PropertiesLoader prop = new PropertiesLoader();
+    Functions functions;
 
     @FindBy(xpath = "//button[contains(@class, 'login-button')]")
     public WebElement loginButton;
@@ -38,13 +39,15 @@ public class LoginPage extends BaseClass {
     }
 
     public void checkLoginPage(){
-        Functions.waitForElementIsVisible(driver, signInLink);
+        functions.waitForElementIsVisible(driver, signInLink);
+
+        // Verify the Login page title
         Assert.assertEquals("Dropbox - Sign in", driver.getTitle());
     }
 
     public void clickSignInLink(){
         signInLink.click();
-        Functions.waitForElementIsVisible(driver, loginButton);
+        functions.waitForElementIsVisible(driver, loginButton);
     }
 
     public void loginToAccount(String login, String password){

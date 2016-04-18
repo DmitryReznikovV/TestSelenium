@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
 
 public class Functions {
 
-    public static void waitForElementIsVisible(WebDriver driver, WebElement element) {
+    public void waitForElementIsVisible(WebDriver driver, WebElement element) {
         try {
             WebDriverWait wait = new WebDriverWait(driver, 30);
             wait.until(ExpectedConditions.visibilityOf(element));
@@ -25,7 +25,7 @@ public class Functions {
         }
     }
 
-    public static void uploadFile() throws AWTException, InterruptedException {
+    public void uploadFile() throws AWTException, InterruptedException {
 
         Robot robot = new Robot();
         robot.keyPress(KeyEvent.VK_ENTER);
@@ -37,14 +37,14 @@ public class Functions {
         robot.keyPress(KeyEvent.VK_ENTER);
     }
 
-    public static void performEnter() throws AWTException, InterruptedException {
+    public void performEnter() throws AWTException, InterruptedException {
 
         Robot robot = new Robot();
         Thread.sleep(2000);
         robot.keyPress(KeyEvent.VK_ENTER);
     }
 
-    public static void deleteFile(String path, String fileName){
+    public void deleteFile(String path, String fileName){
         try{
             File file = new File(path + "\\" + fileName);
 
@@ -58,11 +58,11 @@ public class Functions {
         }
     }
 
-    public static void waitForElementIsNotVisible(WebDriver driver, By locator) {
+    public void waitForElementIsNotVisible(WebDriver driver, By locator) {
         new WebDriverWait(driver, 10).until(ExpectedConditions.invisibilityOfElementLocated(locator));
     }
 
-    public static WebElement fluenWait(final WebDriver driver, final By locator) {
+    public WebElement fluenWait(final WebDriver driver, final By locator) {
         FluentWait<WebDriver> wait = new FluentWait<WebDriver>(driver)
                 .withTimeout(30, TimeUnit.SECONDS)
                 .pollingEvery(500, TimeUnit.MILLISECONDS)

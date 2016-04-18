@@ -12,6 +12,7 @@ public class DropBoxTest extends Hooks {
 
     PropertiesLoader properttieLoader = new PropertiesLoader();
     String path = System.getProperty("user.dir");
+    Functions functions;
 
     @Test
     public void dropboxFileUpload() throws Exception {
@@ -42,7 +43,7 @@ public class DropBoxTest extends Hooks {
             Toolkit.getDefaultToolkit().getSystemClipboard().setContents(stringSelection, null);
 
             //Performs native keystrokes for CTRL+V and ENTER keys and upload the file
-            Functions.uploadFile();
+            functions.uploadFile();
             homePage.clickDoneButton();
 
             //Rename uploaded file
@@ -59,7 +60,7 @@ public class DropBoxTest extends Hooks {
             homePage.downloadNewFile();
 
             //Delete file from the current directory
-            Functions.deleteFile(path, "Brainloop_Reznikau_Temp.txt");
+            functions.deleteFile(path, "Brainloop_Reznikau_Temp.txt");
 
             //Share file
             homePage.shareFile();

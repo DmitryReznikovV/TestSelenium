@@ -17,6 +17,7 @@ public class HomePage extends BaseClass {
 
     PropertiesLoader prop = new PropertiesLoader();
     String path = System.getProperty("user.dir");
+    Functions functions;
 
     @FindBy(xpath = "//a[@id='home-icon']")
     WebElement homePageLogo;
@@ -97,7 +98,7 @@ public class HomePage extends BaseClass {
     }
 
     public void checkHomePage() {
-        Functions.waitForElementIsVisible(driver, accountLink);
+        functions.waitForElementIsVisible(driver, accountLink);
 
         // Verify Home page
         Assert.assertEquals(accountLink.getText(), prop.getProperty("accountname"));
@@ -108,16 +109,16 @@ public class HomePage extends BaseClass {
     public void clickUploadLink() {
         if(uploadLink.isDisplayed()){
             uploadLink.click();
-            Functions.waitForElementIsVisible(driver, chooseFileButton);
+            functions.waitForElementIsVisible(driver, chooseFileButton);
         }
         System.out.println("Upload link absent");
     }
 
     public void clickDoneButton() {
-        Functions.waitForElementIsVisible(driver, doneButton);
+        functions.waitForElementIsVisible(driver, doneButton);
         if (doneButton.isDisplayed()) {
             doneButton.click();
-            Functions.fluenWait(driver, testFileName);
+            functions.fluenWait(driver, testFileName);
 
             // Verify file is uploaded and presents on the page
             Assert.assertTrue(fileName.isDisplayed());
@@ -128,15 +129,15 @@ public class HomePage extends BaseClass {
 
     public void renameTestFile() {
         tableCell.click();
-        Functions.waitForElementIsVisible(driver, renameButton);
+        functions.waitForElementIsVisible(driver, renameButton);
         renameButton.click();
-        Functions.waitForElementIsVisible(driver, tableInputField);
+        functions.waitForElementIsVisible(driver, tableInputField);
 
         tableInputField.clear();
         tableInputField.sendKeys(prop.getProperty("newfilename"));
         try {
-            Functions.performEnter();
-            Functions.waitForElementIsVisible(driver, newFileName);
+            functions.performEnter();
+            functions.waitForElementIsVisible(driver, newFileName);
 
             // Verify name of the new file
             Assert.assertEquals(prop.getProperty("newfilename") ,newFileName.getText());
@@ -151,13 +152,13 @@ public class HomePage extends BaseClass {
         Assert.assertTrue(newFolderButton.isDisplayed());
 
         newFolderButton.click();
-        Functions.waitForElementIsVisible(driver, tableInputField);
+        functions.waitForElementIsVisible(driver, tableInputField);
 
         tableInputField.clear();
         tableInputField.sendKeys(prop.getProperty("foldername"));
         try {
-            Functions.performEnter();
-            Functions.fluenWait(driver, tableCellWithNewFile);
+            functions.performEnter();
+            functions.fluenWait(driver, tableCellWithNewFile);
         } catch (AWTException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -167,12 +168,12 @@ public class HomePage extends BaseClass {
 
     public void moveFileToFolder() {
         newTableCell.click();
-        Functions.waitForElementIsVisible(driver, moveLink);
+        functions.waitForElementIsVisible(driver, moveLink);
         moveLink.click();
-        Functions.waitForElementIsVisible(driver, folderLink);
+        functions.waitForElementIsVisible(driver, folderLink);
         folderLink.click();
         moveButton.click();
-        Functions.waitForElementIsVisible(driver, uploadLink);
+        functions.waitForElementIsVisible(driver, uploadLink);
 
         // Verify that after moving file to the particular folder we don't see this file in the table anymore
         Assert.assertEquals(0, driver.findElements(By.xpath("//a[contains(text(), 'Brainloop_Reznikau_Temp')]")).size());
@@ -191,7 +192,7 @@ public class HomePage extends BaseClass {
 
     public void downloadNewFile(){
         newTableCell.click();
-        Functions.waitForElementIsVisible(driver, downloadButton);
+        functions.waitForElementIsVisible(driver, downloadButton);
         downloadButton.click();
 
         try {
@@ -214,13 +215,13 @@ public class HomePage extends BaseClass {
         emailForSharring.sendKeys(prop.getProperty("mailusername"));
         sendButton.click();
 
-        Functions.waitForElementIsNotVisible(driver, By.xpath("//button[text() = 'Send']"));
+        functions.waitForElementIsNotVisible(driver, By.xpath("//button[text() = 'Send']"));
         Assert.assertEquals(0, driver.findElements(By.xpath("//button[text() = 'Send']")).size());
     }
 
     public void logout(){
         accountLink.click();
-        Functions.waitForElementIsVisible(driver, signOutLink);
+        functions.waitForElementIsVisible(driver, signOutLink);
         signOutLink.click();
     }
 }
